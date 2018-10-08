@@ -39,4 +39,63 @@ class ArticleTest < ActiveSupport::TestCase
     refute @article.valid?, 'article is valid with an image_link that doesn\'t match a url regex'
     assert_not_nil @article.errors[:image_link], 'no validation error for image_link present'
   end
+
+  test 'get articles should return array length 30' do
+    articles = Article.get_articles
+    assert_equal(30, articles.length)
+  end
+
+  test 'get articles should return array length 60 if given loaded articles' do
+    loaded_articles = Article.get_articles
+    articles = Article.get_articles(loaded_articles)
+    assert_equal(60, articles.length)
+  end
+
+  test 'get articles should have first 30 articles as start of array if give loaded_articles' do
+    loaded_articles = Article.get_articles
+    articles = Article.get_articles(loaded_articles.dup)
+    assert_equal(loaded_articles, articles[0,30])
+  end
+
+  test 'get articles 30th to 60th elements should not overlap with loaded_articles' do
+    loaded_articles = Article.get_articles
+    articles = Article.get_articles(loaded_articles.dup)
+    for new_article in articles[30,60]
+      assert_not_includes(loaded_articles, new_article)
+    end
+  end
+
+  test 'get articles should return array with article instances' do
+    articles = Article.get_articles
+    for item in articles do
+      assert_instance_of(Article, item)
+    end
+  end
+
+  test 'get article should return article instance with a valid Hacker News id' do
+    hn_article = Article.get_article('8863')
+    assert_instance_of(Article, hn_article)
+  end
+
+  test 'get article should raise an error if id is invalid' do
+    hn_article = Article.get_article('93939393939')
+    assert_not_instance_of(Article, hn_article)
+  end
+
+  test 'get article should use HN link as URl if no article linked' do
+    hn_article = Article.get_article('18164189')
+    assert_equal('https://news.ycombinator.com/item?id=18164189', hn_article.url)
+  end
+
+  test 'get article image should return image link in meta tag if present for valid uri' do
+    image_link = Article.get_article_image("https://blogs.scientificamerican.com/observations/why-do-computers-use-so-much-energy/")
+    assert_equal("https://static.scientificamerican.com/blogs/cache/file/36E8122B-F737-477F-9F3BE740816FAF6F.jpg", image_link)
+  end
+
+  test 'get article image should return nil if no image link in meta tag for valid uri' do
+    image_link = Article.get_article_image("http://www.example.com/")
+    assert_nil(image_link)
+  end
 end
+
+
