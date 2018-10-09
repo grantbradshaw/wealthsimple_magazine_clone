@@ -1,7 +1,74 @@
-<h1>Hello, Rails!</h1>
+<head>
+  <script>
+    function initEvenFilter() {
+      let ele = document.getElementById("filter_even");
+      ele.onclick = toggleArticleDisplay;
+    };
 
-<% for @article in @articles %>
-  <h3><%= @article %></h3>
-<% end %>
+    function initOddFilter() {
+      let ele = document.getElementById("filter_odd");
+      ele.onclick = toggleArticleDisplay;
+    }
+
+    function toggleArticleDisplay(event) {
+      let main_div = event.target.parentElement;
+      let even_link = main_div.querySelector('#filter_even');
+      let odd_link = main_div.querySelector('#filter_odd');
+
+      let target_link = event.target;
+      let target_link_active = event.target.classList.contains('active');
+      let target_is_even = event.target.id === "filter_even"
+
+      odd_link.classList.remove('active');
+      even_link.classList.remove('active');
+      if (!target_link_active) {
+        target_link.classList.add('active');
+      }
+
+      let articles = main_div.querySelector("#articles_container").querySelectorAll("h3");
+
+      for (let article of articles) {
+        article.hidden = false;
+        if (!target_link_active === true) {
+          if (target_is_even === true && parseInt(article.id) % 2 === 0) {
+            article.hidden = true;
+          } else if (target_is_even === false && parseInt(article.id) % 2 === 1) {
+            article.hidden = true;
+          };
+        };
+      };
+    };
+  </script>
+  <style>
+    .active {
+      color: black;
+    }
+  </style>
+</head>
+
+<body onload="initEvenFilter(); initOddFilter();">
+  <h1>Hello, Rails!</h1>
+    <div class="header">
+    </div>
+
+    <div class="main">
+      <%= link_to "Even articles", even_articles_path(articles: @articles), id: "filter_even", remote: true %>
+      <%= link_to "Odd articles", odd_articles_path(articles: @articles), id: "filter_odd", remote: true %>
+
+      <div id="articles_container">
+      <% @articles.each_with_index do |article, i| %>
+        <h3 id=<%= i + 1 %>><%= article %></h3>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="footer">
+  </div>
+
+</body>
+
+
+
+
 
 

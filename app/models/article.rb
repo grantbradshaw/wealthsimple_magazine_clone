@@ -25,10 +25,10 @@ class Article < ApplicationRecord
     end
 
     if loaded_articles
-      articles_to_process = 60
+      articles_to_process = 10
       articles = loaded_articles
     else
-      articles_to_process = 30
+      articles_to_process = 5
       articles = []
     end
 
