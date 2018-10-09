@@ -8,6 +8,11 @@
     function initOddFilter() {
       let ele = document.getElementById("filter_odd");
       ele.onclick = toggleArticleDisplay;
+    };
+
+    function initAddArticles() {
+      let ele = document.getElementById("more_articles");
+      ele.onclick = addArticles;
     }
 
     function toggleArticleDisplay(event) {
@@ -38,6 +43,11 @@
         };
       };
     };
+
+    function addArticles(event) {
+      let ele = event.target;
+      event.target.html("%= j render ''%")
+    }
   </script>
   <style>
     .active {
@@ -46,7 +56,7 @@
   </style>
 </head>
 
-<body onload="initEvenFilter(); initOddFilter();">
+<body onload="initEvenFilter(); initOddFilter(); initAddArticles();">
   <h1>Hello, Rails!</h1>
     <div class="header">
     </div>
@@ -60,6 +70,8 @@
         <h3 id=<%= i + 1 %>><%= article %></h3>
       <% end %>
     </div>
+
+    <%= link_to "More articles", more_articles_path(articles: @articles), id: "more_articles", remote: true %>
   </div>
 
   <div class="footer">
