@@ -25,13 +25,9 @@ class Article < ApplicationRecord
       puts "failed #{e}"
     end
 
-    if loaded_articles
-      articles_to_process = 60
-      articles = loaded_articles
-    else
-      articles_to_process = 30
-      articles = []
-    end
+    articles_to_process = 30
+    articles = []
+
 
     for i in 0..(top_articles.length - 1) do
       article = self.get_article(top_articles[i], loaded_articles)
@@ -49,12 +45,14 @@ class Article < ApplicationRecord
   end
 
   def self.get_article(id, loaded_articles=nil)
+    if loaded_articles && loaded_articles.include?(id.to_s)
+      return nil
+    end
+
     article_in_db = Article.find_by HN_id: id.to_i
     if article_in_db
       return article_in_db
     end
-
-
 
     begin
       uri = URI("https://hacker-news.firebaseio.com/v0/item/#{id}.json")
@@ -75,10 +73,6 @@ class Article < ApplicationRecord
       article_url = article_json["url"] # consider validation on whether url is valid, currently trusting HN api to provide valid uris
     else
       article_url = "https://news.ycombinator.com/item?id=#{id}"
-    end
-
-    if loaded_articles && loaded_articles.select {|a| a.url == article_url}.length > 0
-      return nil
     end
 
     article_title = article_json["title"]

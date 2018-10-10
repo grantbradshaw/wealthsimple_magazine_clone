@@ -1,27 +1,23 @@
-<body>
-    <div class="main">
-      <%= link_to "Even articles", even_articles_path(articles: @articles), id: "filter_even", remote: true %>
-      <%= link_to "Odd articles", odd_articles_path(articles: @articles), id: "filter_odd", remote: true %>
+<div class="main">
+  <%= link_to "Even articles", even_articles_path(articles: @articles), id: "filter_even", remote: true %>
+  <%= link_to "Odd articles", odd_articles_path(articles: @articles), id: "filter_odd", remote: true %>
 
-      <div id="articles_container">
-      <% @articles.each_with_index do |article, i| %>
-        <a href=<%= article.url %> id=<%= i + 1%>>
-          <div>
-            <h6><%= article.title %></h6>
-            <% if article.image_link %>
-              <%= image_tag article.image_link, width:"50", height:"50" %>
-            <% else %>
-              <%= image_tag "blue.jpeg", width:"50", height:"50" %>
-            <% end %>
-          </div>
-        </a>
-      <% end %>
-    </div>
-
-    <%= link_to "More articles", more_articles_path(articles: @articles), id: "more_articles", remote: true %>
+  <div id="articles_container">
+    <% @articles.each_with_index do |article, i| %>
+      <a href=<%= article.url %> id=<%= i + 1%>>
+        <div>
+          <h6><%= article.title %></h6>
+          <% if article.image_link %>
+            <%= image_tag article.image_link, width:"50", height:"50" %>
+          <% else %>
+            <%= image_tag "blue.jpeg", width:"50", height:"50" %>
+          <% end %>
+        </div>
+      </a>
+    <% end %>
   </div>
-
-</body>
+  <%= link_to "More articles", more_articles_path(article_ids: @article_ids), id: "more_articles", remote: true %>
+</div>
 
 
 

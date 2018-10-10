@@ -61,23 +61,17 @@ class ArticleTest < ActiveSupport::TestCase
     assert_equal(30, articles.length)
   end
 
-  test 'get articles should return array length 60 if given loaded articles' do
+  test 'get articles should return array length 30 if given loaded articles' do
     loaded_articles = Article.get_articles
     articles = Article.get_articles(loaded_articles)
-    assert_equal(60, articles.length)
+    assert_equal(30, articles.length)
   end
 
-  test 'get articles should have first 30 articles as start of array if give loaded_articles' do
-    loaded_articles = Article.get_articles
+  test 'getting more articles, articles should not overlap with loaded_articles' do
+    loaded_articles = Article.get_articles.map {|a| a.HN_Id.to_s}
     articles = Article.get_articles(loaded_articles.dup)
-    assert_equal(loaded_articles, articles[0,30])
-  end
-
-  test 'get articles 30th to 60th elements should not overlap with loaded_articles' do
-    loaded_articles = Article.get_articles
-    articles = Article.get_articles(loaded_articles.dup)
-    for new_article in articles[30,60]
-      assert_not_includes(loaded_articles, new_article)
+    for new_article in articles
+      assert_not_includes(loaded_articles, new_article.HN_Id)
     end
   end
 
