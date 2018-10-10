@@ -45,7 +45,6 @@ function toggleArticleDisplay(event) {
 function addArticles(event) {
   let ele = event.target;
   ele.hidden = true;
-  // event.target.html("%= j render ''%")
 }
 
 function load() {

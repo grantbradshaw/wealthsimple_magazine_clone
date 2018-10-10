@@ -93,7 +93,6 @@ class Article < ApplicationRecord
     end
   end
 
-  # for runtime performance, look at querying database before scraping webpages
   # should check for other meta image tags (i.e. for twitter) if og:image not present
   def self.get_article_image(url)
     begin
