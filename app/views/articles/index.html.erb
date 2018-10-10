@@ -30,7 +30,7 @@
         target_link.classList.add('active');
       }
 
-      let articles = main_div.querySelector("#articles_container").querySelectorAll("h3");
+      let articles = main_div.querySelector("#articles_container").querySelectorAll("a");
 
       for (let article of articles) {
         article.hidden = false;
@@ -49,11 +49,6 @@
       event.target.html("%= j render ''%")
     }
   </script>
-  <style>
-    .active {
-      color: black;
-    }
-  </style>
 </head>
 
 <body onload="initEvenFilter(); initOddFilter(); initAddArticles();">
@@ -63,7 +58,16 @@
 
       <div id="articles_container">
       <% @articles.each_with_index do |article, i| %>
-        <h3 id=<%= i + 1 %>><%= article %></h3>
+        <a href=<%= article.url %> id=<%= i + 1%>>
+          <div>
+            <h6><%= article.title %></h6>
+            <% if article.image_link %>
+              <img src="<%= article.image_link%>"/>
+            <% else %>
+              <%= image_tag "blue.jpeg" %>
+            <% end %>
+          </div>
+        </a>
       <% end %>
     </div>
 

@@ -4,6 +4,7 @@ require 'nokogiri'
 
 class Article < ApplicationRecord
   validates :title, presence: true
+  validates :HN_Id, presence: true, uniqueness: true
   validates :url, presence: true, format: {
     with: /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/,
     message: 'must be a valid url'
@@ -25,10 +26,10 @@ class Article < ApplicationRecord
     end
 
     if loaded_articles
-      articles_to_process = 10
+      articles_to_process = 60
       articles = loaded_articles
     else
-      articles_to_process = 5
+      articles_to_process = 30
       articles = []
     end
 
@@ -48,6 +49,13 @@ class Article < ApplicationRecord
   end
 
   def self.get_article(id, loaded_articles=nil)
+    article_in_db = Article.find_by HN_id: id.to_i
+    if article_in_db
+      return article_in_db
+    end
+
+
+
     begin
       uri = URI("https://hacker-news.firebaseio.com/v0/item/#{id}.json")
       res = Net::HTTP.get(uri)
@@ -82,7 +90,8 @@ class Article < ApplicationRecord
 
     article = self.new({:url => article_url,
                         :title => article_title,
-                        :image_link => article_image})
+                        :image_link => article_image,
+                        :HN_Id => id.to_i})
     if article.save
       article
     else

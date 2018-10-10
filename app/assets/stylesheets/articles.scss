@@ -4,8 +4,22 @@
 
 
 body {
+  a {
+    &.active {
+      color: black;
+    }
+    &:hover {
+      text-decoration: none;
+      color: black;
+    }
+
+    div {
+      border: 1px black solid;
+    }
+  }
+
   div.main {
-    margin-top: 136px;
+    margin-top: 200px;
     background-color: #f9f8f6
   }
 }
