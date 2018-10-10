@@ -57,10 +57,6 @@
 </head>
 
 <body onload="initEvenFilter(); initOddFilter(); initAddArticles();">
-  <h1>Hello, Rails!</h1>
-    <div class="header">
-    </div>
-
     <div class="main">
       <%= link_to "Even articles", even_articles_path(articles: @articles), id: "filter_even", remote: true %>
       <%= link_to "Odd articles", odd_articles_path(articles: @articles), id: "filter_odd", remote: true %>
@@ -72,9 +68,6 @@
     </div>
 
     <%= link_to "More articles", more_articles_path(articles: @articles), id: "more_articles", remote: true %>
-  </div>
-
-  <div class="footer">
   </div>
 
 </body>

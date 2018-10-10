@@ -1,0 +1,46 @@
+$text-default: #12121280;
+$text-current: #121212;
+$button-color: #ffb21a;
+$white: #fff;
+
+div.header {
+  background-color: $white;
+  position: fixed;
+  top: 0;
+  padding: 30px 122px;
+
+  a.logo {
+    img {
+      height:29px;
+    }
+  }
+
+  nav {
+    ul {
+      list-style: none;
+      li {
+        a {
+          color: $text-default;
+          margin: 0px 0px 0px 20px;
+          font-format: FuturaBT-Book,sans-serif;
+          font-size: 18px;
+          &:hover {
+            text-decoration: none;
+            color: $text-current;
+          }
+          &.current {
+            color: $text-current;
+          }
+        }
+        a.btn {
+          background: $button-color;
+          cursor: pointer;
+          color: $white;
+          border-radius: 52px;
+          padding: 16px 20px 15px;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+}
