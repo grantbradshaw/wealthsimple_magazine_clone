@@ -49,7 +49,7 @@ class Article < ApplicationRecord
       return nil
     end
 
-    article_in_db = Article.find_by HN_id: id.to_i
+    article_in_db = Article.find_by HN_Id: id.to_i
     if article_in_db
       return article_in_db
     end
