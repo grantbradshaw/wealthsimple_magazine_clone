@@ -9,9 +9,9 @@
           <div>
             <h6><%= article.title %></h6>
             <% if article.image_link %>
-              <img src="<%= article.image_link%>"/>
+              <%= image_tag article.image_link, width:"50", height:"50" %>
             <% else %>
-              <%= image_tag "blue.jpeg" %>
+              <%= image_tag "blue.jpeg", width:"50", height:"50" %>
             <% end %>
           </div>
         </a>
