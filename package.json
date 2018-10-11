@@ -1,5 +1,15 @@
 {
   "name": "wealthsimple_magazine_clone",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/webpacker": "3.5"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/grantbradshaw/wealthsimple_magazine_clone.git",
+  "author": "grantbradshaw <grant.bradshaw@outlook.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
 }
